@@ -20,3 +20,5 @@ build
 _install
 bin_x64
 NVPRO_EXTERNAL
+/cmake-build-debug/
+/.idea/
