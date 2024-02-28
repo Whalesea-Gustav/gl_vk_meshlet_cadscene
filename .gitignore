@@ -20,3 +20,7 @@ build
 _install
 bin_x64
 NVPRO_EXTERNAL
+/cmake-build-debug-vs22littleitx/
+/cmake-build-release-vs22littleitx/
+/downloaded_resources/
+/.idea/

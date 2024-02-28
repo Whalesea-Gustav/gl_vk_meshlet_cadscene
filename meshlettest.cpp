@@ -51,7 +51,7 @@
 #include "renderer.hpp"
 #include <glm/gtc/type_ptr.hpp>
 #include "glm/gtc/matrix_access.hpp"
-
+#include <iostream>
 
 namespace meshlettest {
 int const SAMPLE_SIZE_WIDTH(1024);
@@ -1250,12 +1250,26 @@ void Sample::think(double time)
     glm::vec3 sideUpDir = glm::vec3(glm::row(view, 1));
     sceneUbo.wLightPos += glm::vec4((sideDir + sideUpDir + viewDir * 0.25f) * m_control.m_sceneDimension * 0.25f, 0.0f);
 
-    sceneUbo.wClipPlanes[0] =
-        glm::vec4(-1, 0, 0, glm::lerp(m_tweak.clipPosition.x, m_scene.m_bboxInstanced.min.x, m_scene.m_bboxInstanced.max.x));
-    sceneUbo.wClipPlanes[1] =
-        glm::vec4(0, -1, 0, glm::lerp(m_tweak.clipPosition.y, m_scene.m_bboxInstanced.min.y, m_scene.m_bboxInstanced.max.y));
-    sceneUbo.wClipPlanes[2] =
-        glm::vec4(0, 0, -1, glm::lerp(m_tweak.clipPosition.z, m_scene.m_bboxInstanced.min.z, m_scene.m_bboxInstanced.max.z));
+    if(NUM_CLIPPING_PLANES >= 1)
+    {
+        sceneUbo.wClipPlanes[0] =
+                glm::vec4(-1, 0, 0, glm::lerp(m_scene.m_bboxInstanced.min.x, m_scene.m_bboxInstanced.max.x, m_tweak.clipPosition.x));
+
+//        std::cout << "min=" << m_scene.m_bboxInstanced.min.x << ", max=" <<  m_scene.m_bboxInstanced.max.x << std::endl;
+//        std::cout << "clip=" << m_tweak.clipPosition.x << std::endl;
+//        std::cout << "lerp=" << glm::lerp(m_tweak.clipPosition.x, m_scene.m_bboxInstanced.min.x, m_scene.m_bboxInstanced.max.x) << std::endl;
+    }
+      if(NUM_CLIPPING_PLANES >= 2)
+      {
+          sceneUbo.wClipPlanes[1] =
+                  glm::vec4(0, -1, 0, glm::lerp(m_scene.m_bboxInstanced.min.y, m_scene.m_bboxInstanced.max.y, m_tweak.clipPosition.y));
+      }
+      if(NUM_CLIPPING_PLANES >= 3)
+      {
+          sceneUbo.wClipPlanes[2] =
+                  glm::vec4(0, 0, -1, glm::lerp(m_scene.m_bboxInstanced.min.z, m_scene.m_bboxInstanced.max.z, m_tweak.clipPosition.z));
+      }
+
   }
 
 
