@@ -23,4 +23,7 @@ NVPRO_EXTERNAL
 /cmake-build-debug-vs22littleitx/
 /cmake-build-release-vs22littleitx/
 /downloaded_resources/
+/cmake-build-debug/
+/cmake-build-release/
 /.idea/
+
